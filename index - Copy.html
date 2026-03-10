@@ -1,0 +1,897 @@
+border:1px solid rgba(255,221,164,.5);
+      display:grid;place-items:center;
+      animation:bob 1.8s ease-in-out infinite;
+    }
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+    .curtain-wrap{
+      position:absolute; inset:0;
+      z-index:10;
+      pointer-events:none;
+    }
+    .curtain{
+      position:absolute; top:0; bottom:0; width:51%;
+      background:
+        linear-gradient(90deg, rgba(61,11,20,.95), rgba(122,19,36,.96), rgba(78,10,24,.98)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,.08) 0 10px,
+          rgba(0,0,0,.08) 10px 22px
+        );
+      box-shadow: inset -12px 0 18px rgba(0,0,0,.25), inset 12px 0 18px rgba(255,255,255,.03);
+      transition:transform 1.6s cubic-bezier(.2,.8,.12,1);
+      overflow:hidden;
+    }
+    .curtain::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at top, rgba(255,213,138,.22), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,.10), transparent 18%);
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .curtain::after{
+      content:"";
+      position:absolute; left:0; right:0; top:0; height:58px;
+      background:linear-gradient(180deg, #c59a45, #9f752d);
+      box-shadow:0 6px 14px rgba(0,0,0,.25);
+    }
+    .curtain.left{
+      left:0;
+      border-right:2px solid rgba(255,219,147,.12);
+      border-top-right-radius:20px;
+    }
+    .curtain.right{
+      right:0;
+      border-left:2px solid rgba(255,219,147,.12);
+      border-top-left-radius:20px;
+    }
+    .curtain.open.left{transform:translateX(-103%)}
+    .curtain.open.right{transform:translateX(103%)}
+
+    .rope{
+      position:absolute; top:82px;
+      left:50%; transform:translateX(-50%);
+      width:8px; height:120px;
+      background:linear-gradient(180deg,#e6c177,#b98b36);
+      border-radius:20px;
+      z-index:12;
+      box-shadow:0 6px 12px rgba(0,0,0,.2);
+      cursor:pointer;
+      transition:transform .18s ease, opacity .9s ease;
+      pointer-events:auto;
+      border:none;
+    }
+    .rope::after{
+      content:"";
+      position:absolute; bottom:-20px; left:50%; transform:translateX(-50%);
+      width:32px; height:32px; border-radius:50%;
+      background:radial-gradient(circle at 35% 35%, #ffe8b4, #c49034 68%);
+      box-shadow:0 8px 14px rgba(0,0,0,.25);
+    }
+    .hero.opened .rope{opacity:0; pointer-events:none}
+    .hero:not(.opened) .rope:active{transform:translateX(-50%) translateY(8px)}
+
+    section{
+      padding:70px 0;
+      position:relative;
+    }
+
+    .section-head{
+      text-align:center;
+      margin-bottom:28px;
+    }
+    .section-head .mini{
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform:uppercase;
+      font-size:12px;
+      letter-spacing:3.6px;
+      color:#e8d0a1;
+      margin-bottom:12px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size:clamp(30px,5vw,56px);
+      color:var(--cream);
+      font-weight:500;
+    }
+    .section-head p{
+      margin:14px auto 0;
+      max-width:760px;
+      color:rgba(255,241,218,.84);
+      font-size:18px;
+      line-height:1.7;
+    }
+
+    .scratch-shell{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        rgba(255,255,255,.02);
+      border:1px solid rgba(241,209,146,.13);
+      border-radius:36px;
+      padding:28px 18px 34px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(6px);
+    }
+
+    .scratch-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .scratch-card{
+      position:relative;
+      min-height:360px;
+      background:linear-gradient(180deg, #fffdf8, #f8f0e3 56%, #f7ede0 100%);
+      border-radius:28px;
+      overflow:hidden;
+      box-shadow:0 10px 28px rgba(0,0,0,.14);
+      border:1px solid rgba(143,109,45,.14);
+      color:var(--ink);
+    }
+
+    .scratch-card::before{
+      content:"";
+      position:absolute; inset:12px;
+      border:1px solid rgba(201,157,76,.28);
+      border-radius:22px;pointer-events:none;
+    }
+
+    .card-top{
+      position:absolute; left:0; right:0; top:0;
+      height:100%;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding-bottom:24px;
+      pointer-events:none;
+      z-index:4;
+    }
+
+    .hint-pill{
+      background:rgba(255,250,240,.84);
+      backdrop-filter:blur(6px);
+      border:1px solid rgba(208,164,81,.22);
+      color:#6c5339;
+      padding:10px 14px;
+      border-radius:999px;
+      font:600 12px/1 Arial, Helvetica, sans-serif;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      box-shadow:0 10px 16px rgba(0,0,0,.08);
+    }
+
+    .reveal-area{
+      position:absolute; inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      padding:28px;
+      text-align:center;
+      z-index:1;
+    }
+
+    .reveal-icon{
+      width:74px; height:74px; border-radius:50%;
+      display:grid; place-items:center;
+      font-size:30px;
+      margin-bottom:18px;
+      background:radial-gradient(circle at 35% 35%, #fff6de, #eac97c 66%, #bf8c39);
+      box-shadow:0 10px 24px rgba(191,140,57,.24);
+    }
+
+    .reveal-label{
+      font:700 12px/1 Arial, Helvetica, sans-serif;
+      letter-spacing:3px;
+      color:#8b6946;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .reveal-value{
+      font-size:clamp(26px,3.2vw,38px);
+      line-height:1.2;
+      font-weight:600;
+      margin-bottom:10px;
+    }
+
+    .reveal-sub{
+      color:#775d4d;
+      font-size:16px;
+      line-height:1.6;
+      max-width:240px;
+    }
+
+    canvas.scratch-layer{
+      position:absolute;
+      inset:0;
+      width:100%; height:100%;
+      z-index:3;
+      touch-action:none;
+    }
+
+    .scratch-progress{
+      display:grid;
+      place-items:center;
+      margin-top:24px;
+      color:rgba(255,244,222,.84);
+      font-family: Arial, Helvetica, sans-serif;
+      gap:12px;
+    }
+
+    .progress-dots{
+      display:flex;
+      gap:10px;
+    }
+
+    .progress-dots span{
+      width:13px; height:13px; border-radius:50%;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,228,170,.24);
+      transition:.28s ease;
+    }
+
+    .progress-dots span.done{
+      background:linear-gradient(180deg,#f0ddaf,#c89d4a);
+      box-shadow:0 0 16px rgba(240,221,175,.32);
+    }
+
+    .unlock-message{
+      margin-top:18px;
+      text-align:center;
+      color:#ffeec9;
+      opacity:0;
+      transform:translateY(10px);
+      transition:.6s ease;
+      pointer-events:none;
+    }
+    .unlock-message.show{opacity:1; transform:translateY(0)}
+
+    .next-section{
+      opacity:.45;
+      transition:.8s ease;
+      pointer-events:none;
+    }
+    .next-section.unlocked{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .details-wrap{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:22px;
+    }
+
+    .detail-box{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(241,209,146,.13);
+      border-radius:30px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .detail-box h3{
+      margin:0 0 12px;
+      font-size:28px;
+      color:var(--cream);
+      font-weight:500;
+    }
+
+    .detail-box p{
+      margin:0;
+      color:rgba(255,241,218,.84);
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    .action-row{
+      display:flex; flex-wrap:wrap; gap:14px;
+      margin-top:22px;
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width:170px;
+      padding:14px 20px;
+      border-radius:999px;
+      font:700 14px/1 Arial, Helvetica, sans-serif;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      transition:.25s ease;
+    }
+    .btn-primary{
+      background:linear-gradient(180deg,#f4ddb2,#c99d4c);
+      color:#2e1f14;
+      box-shadow:0 12px 24px rgba(0,0,0,.22);
+    }
+    .btn-secondary{
+      border:1px solid rgba(241,209,146,.25);
+      color:#fff2d0;
+      background:rgba(255,255,255,.04);
+    }
+    .btn:hover{transform:translateY(-2px)}
+
+    .<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Royal Wedding Invitation</title>
+  <style>
+    :root{
+      --bg:#140f10;
+      --bg-2:#211719;
+      --card:#fffaf3;
+      --gold:#d8b36a;
+      --gold-soft:#f2deb0;
+      --ink:#302421;
+      --rose:#8a5d66;
+      --cream:#f7efe3;
+      --shadow:0 12px 35px rgba(0,0,0,.28);
+      --radius:26px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top, rgba(216,179,106,.12), transparent 28%),
+        linear-gradient(180deg,var(--bg),#120c0d 55%, #191214 100%);
+      color:#fff;
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{width:min(var(--max), calc(100% - 28px)); margin:auto}
+
+    .hero{
+      position:relative;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at center, rgba(255,235,194,.12), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.05), transparent 20%);
+      z-index:-3;
+    }
+
+    .ornament{
+      position:absolute;
+      width:280px; height:280px;
+      border:1px solid rgba(216,179,106,.14);
+      border-radius:50%;
+      filter:blur(.2px);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .ornament.o1{top:-70px; left:-70px}
+    .ornament.o2{bottom:-90px; right:-90px}
+
+    .hero-center{
+      position:relative;
+      z-index:5;
+      text-align:center;
+      padding:28px;
+      width:min(900px, 100%);
+    }
+
+    .crest{
+      width:88px; height:88px; margin:0 auto 18px;
+      border:1px solid rgba(216,179,106,.45);
+      border-radius:50%;
+      display:grid; place-items:center;
+      box-shadow:0 0 0 8px rgba(216,179,106,.05), inset 0 0 20px rgba(255,255,255,.04);
+      backdrop-filter:blur(3px);
+      color:var(--gold-soft);
+      font-size:32px;
+      letter-spacing:1px;
+    }
+
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:4px;
+      font-size:12px;
+      color:#eadab4;
+      opacity:.9;
+      margin-bottom:14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .couple-name{
+      font-size:clamp(40px, 8vw, 92px);
+      line-height:1.04;
+      margin:0;
+      color:var(--cream);
+      text-shadow:0 5px 28px rgba(0,0,0,.24);
+      opacity:0;
+      transform:translateY(14px) scale(.98);
+      transition:1.1s ease;
+    }
+
+    .couple-name.revealed{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    .subtitle{
+      max-width:650px;
+      margin:18px auto 0;
+      font-size:clamp(16px,2.6vw,22px);
+      color:rgba(255,244,222,.85);
+      opacity:0;
+      transform:translateY(12px);
+      transition:1.1s ease .2s;
+    }
+    .subtitle.revealed{opacity:1; transform:translateY(0)}
+
+    .open-btn{
+      margin-top:28px;
+      background:linear-gradient(180deg,#f4ddb2,#c99d4c);
+      color:#2e1f14;
+      border:none;
+      border-radius:999px;
+      padding:14px 26px;
+      font-weight:700;
+      font-size:15px;
+      letter-spacing:.6px;
+      cursor:pointer;
+      box-shadow:0 12px 24px rgba(0,0,0,.22);
+      transition:.25s ease;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .open-btn:hover{transform:translateY(-2px)}
+    .open-btn:active{transform:translateY(1px)}
+
+    .scroll-cue{
+      margin-top:26px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:rgba(255,240,213,.85);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:13px;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      opacity:0;
+      pointer-events:none;
+      transition:.7s ease .4s;
+    }
+    .scroll-cue.show{opacity:1; pointer-events:auto}
+    .scroll-cue .dot{
+      width:28px;height:28px;border-radius:50%;signature{
+      padding:32px 0 60px;
+      text-align:center;
+      color:rgba(255,239,211,.75);
+      font-size:15px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #fx{
+      position:fixed; inset:0; width:100%; height:100%;
+      pointer-events:none; z-index:999;
+    }
+
+    @media (max-width:980px){
+      .scratch-grid{grid-template-columns:1fr}
+      .scratch-card{min-height:300px}
+      .details-wrap{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+
+  <header class="hero" id="top">
+    <div class="ornament o1"></div>
+    <div class="ornament o2"></div>
+
+    <div class="curtain-wrap" aria-hidden="true">
+      <div class="curtain left" id="curtainLeft"></div>
+      <div class="curtain right" id="curtainRight"></div>
+      <button class="rope" id="ropeBtn" aria-label="Open curtain"></button>
+    </div>
+
+    <div class="hero-center container">
+      <div class="crest">✦</div>
+      <div class="eyebrow">Royal Wedding Invitation</div>
+      <h1 class="couple-name" id="coupleName">Ali <span style="color:var(--gold-soft)">&amp;</span> Sara</h1>
+      <p class="subtitle" id="heroSubtitle">A night of elegance, love, and celebration awaits you. Open the curtain to reveal the invitation.</p>
+      <button class="open-btn" id="openBtn">Open Invitation</button>
+      <a href="#scratchSection" class="scroll-cue" id="scrollCue">
+        <span>Scroll to continue</span>
+        <span class="dot">↓</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section id="scratchSection">
+      <div class="container">
+        <div class="section-head">
+          <div class="mini">Reveal The Details</div>
+          <h2>Scratch each elegant card</h2>
+          <p>Each card reveals one special detail of the celebration. When all three are revealed, the page celebrates with you and unlocks the next part of the invitation.</p>
+        </div>
+
+        <div class="scratch-shell">
+          <div class="scratch-grid">
+            <article class="scratch-card" data-card="0">
+              <div class="reveal-area">
+                <div class="reveal-icon">📅</div>
+                <div class="reveal-label">Wedding Date</div>
+                <div class="reveal-value">25 July 2026</div>
+                <div class="reveal-sub">Mark the day and join us for a beautiful evening of joy.</div>
+              </div>
+              <div class="card-top"><div class="hint-pill">Scratch to reveal</div></div>
+              <canvas class="scratch-layer"></canvas>
+            </article>
+
+            <article class="scratch-card" data-card="1">
+              <div class="reveal-area">
+                <div class="reveal-icon">🕰️</div>
+                <div class="reveal-label">Ceremony Time</div>
+                <div class="reveal-value">7:00 PM</div>
+                <div class="reveal-sub">Please arrive a little early to share the full experience with us.</div>
+              </div>
+              <div class="card-top"><div class="hint-pill">Scratch to reveal</div></div>
+              <canvas class="scratch-layer"></canvas>
+            </article>
+
+            <article class="scratch-card" data-card="2">
+              <div class="reveal-area">
+                <div class="reveal-icon">📍</div>
+                <div class="reveal-label">Venue</div>
+                <div class="reveal-value">Duhok Wedding Hall</div>
+                <div class="reveal-sub">A refined setting prepared for a memorable night of celebration.</div>
+              </div>
+              <div class="card-top"><div class="hint-pill">Scratch to reveal</div></div>
+              <canvas class="scratch-layer"></canvas>
+            </article>
+          </div>
+
+          <div class="scratch-progress">
+            <div class="progress-dots" id="progressDots">
+              <span></span><span></span><span></span>
+            </div>
+            <div id="progressText">Reveal all 3 cards to unlock the celebration</div>
+          </div>
+
+          <div class="unlock-message" id="unlockMessage">
+            All details revealed — the celebration begins below.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-section" id="nextSection">
+      <div class="container">
+        <div class="section-head">
+          <div class="mini">Celebrate With Us</div>
+          <h2>Your presence is our honor</h2>
+          <p>We would be delighted to welcome you to this special evening. Please save the date and join us as we begin our next chapter together.</p>
+        </div>
+
+        <div class="details-wrap">
+          <div class="detail-box">
+            <h3>Wedding Celebration</h3>
+            <p>
+              Join us for an unforgettable evening filled with elegance, warm hospitality, and beautiful moments shared with family and friends.
+              We look forward to celebrating this joyful occasion with you.
+            </p>
+
+            <div class="action-row">
+              <a class="btn btn-primary" href="https://maps.google.com" target="_blank" rel="noopener">Open Location</a>
+              <a class="btn btn-secondary" href="#top">Back to Top</a>
+            </div>
+          </div>
+
+          <div class="detail-box">
+            <h3>With love</h3>
+            <p>
+              Ali &amp; Sara<br>
+              Together with their families<br><br>
+              Kindly join us on<br>
+              25 July 2026 at 7:00 PM
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="signature">Crafted for elegant wedding invitations • Created by Nivin Group</div>
+  </main>
+
+  <script>
+    const hero = document.querySelector('.hero');
+    const curtainLeft = document.getElementById('curtainLeft');
+    const curtainRight = document.getElementById('curtainRight');
+    const coupleName = document.getElementById('coupleName');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    const openBtn = document.getElementById('openBtn');
+    const ropeBtn = document.getElementById('ropeBtn');
+    const scrollCue = document.getElementById('scrollCue');
+
+    let opened = false;
+
+    function openCurtain() {
+      if (opened) return;
+      opened = true;
+      hero.classList.add('opened');
+      curtainLeft.classList.add('open');
+      curtainRight.classList.add('open');
+
+      setTimeout(() => {
+        coupleName.classList.add('revealed');
+        heroSubtitle.classList.add('revealed');
+        scrollCue.classList.add('show');
+      }, 500);
+    }
+
+    openBtn.addEventListener('click', openCurtain);
+    ropeBtn.addEventListener('click', openCurtain);
+
+    const cards = [...document.querySelectorAll('.scratch-card')];
+    const progressDots = [...document.querySelectorAll('#progressDots span')];
+    const progressText = document.getElementById('progressText');
+    const unlockMessage = document.getElementById('unlockMessage');
+    const nextSection = document.getElementById('nextSection');
+
+    const completed = new Set();
+
+    function paintElegantCover(ctx, w, h) {
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, '#efd7a7');
+      grad.addColorStop(.55, '#cfa25a');
+      grad.addColorStop(1, '#b98335');
+      ctx.fillStyle = grad;
+      roundRect(ctx, 0, 0, w, h, 28);
+      ctx.fill();
+
+      const glow = ctx.createRadialGradient(w * 0.3, h * 0.2, 10, w * 0.3, h * 0.2, w * 0.7);
+      glow.addColorStop(0, 'rgba(255,255,255,.30)');
+      glow.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = glow;
+      roundRect(ctx, 0, 0, w, h, 28);
+      ctx.fill();
+
+      ctx.strokeStyle = 'rgba(255,245,220,.65)';
+      ctx.lineWidth = 1.6;
+      roundRect(ctx, 12, 12, w - 24, h - 24, 22);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255,248,234,.34)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(w/2, h/2, Math.min(w,h)*0.27, 0, Math.PI*2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(w/2, h/2, Math.min(w,h)*0.19, 0, Math.PI*2);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255,255,255,.9)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '700 18px Arial';
+      ctx.fillText('SCRATCH', w / 2, h / 2 - 8);ctx.font = '500 12px Arial';
+      ctx.fillText('TO REVEAL', w / 2, h / 2 + 16);
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function checkCompletion(cardIndex) {
+      if (!completed.has(cardIndex)) {
+        completed.add(cardIndex);
+        progressDots[cardIndex].classList.add('done');
+        progressText.textContent = ${completed.size} of 3 details revealed;
+      }
+
+      if (completed.size === 3) {
+        progressText.textContent = 'All details revealed';
+        unlockMessage.classList.add('show');
+        nextSection.classList.add('unlocked');
+        fireCelebration();
+        setTimeout(() => {
+          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 1200);
+      }
+    }
+
+    cards.forEach((card, index) => {
+      const canvas = card.querySelector('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      let drawing = false;
+      let done = false;
+
+      function resize() {
+        const ratio = window.devicePixelRatio || 1;
+        const w = card.clientWidth;
+        const h = card.clientHeight;
+        canvas.width = Math.floor(w * ratio);
+        canvas.height = Math.floor(h * ratio);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.scale(ratio, ratio);
+        ctx.clearRect(0,0,w,h);
+        paintElegantCover(ctx, w, h);
+      }
+
+      function posFromEvent(e) {
+        const rect = canvas.getBoundingClientRect();
+        if (e.touches && e.touches[0]) {
+          return {
+            x: e.touches[0].clientX - rect.left,
+            y: e.touches[0].clientY - rect.top
+          };
+        }
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      }
+
+      function scratch(x, y) {
+        ctx.globalCompositeOperation = 'destination-out';
+        const g = ctx.createRadialGradient(x, y, 4, x, y, 28);
+        g.addColorStop(0, 'rgba(0,0,0,1)');
+        g.addColorStop(1, 'rgba(0,0,0,.0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, y, 28, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function percentScratched() {
+        const w = card.clientWidth;
+        const h = card.clientHeight;
+        const pixels = ctx.getImageData(0, 0, w, h).data;
+        let transparent = 0;
+        const total = pixels.length / 4;
+
+        for (let i = 3; i < pixels.length; i += 64) {
+          if (pixels[i] < 100) transparent++;
+        }
+        const sampled = total / 16;
+        return transparent / sampled;
+      }
+
+      function maybeComplete() {
+        if (done) return;
+        const pct = percentScratched();
+        if (pct > 0.47) {
+          done = true;
+          canvas.style.transition = 'opacity .55s ease';
+          canvas.style.opacity = '0';
+          setTimeout(() => {
+            canvas.style.pointerEvents = 'none';
+          }, 600);
+          checkCompletion(index);
+        }
+      }
+
+      canvas.addEventListener('mousedown', e => {
+        drawing = true;
+        const p = posFromEvent(e);
+        scratch(p.x, p.y);
+      });
+
+      canvas.addEventListener('mousemove', e => {
+        if (!drawing || done) return;
+        const p = posFromEvent(e);
+        scratch(p.x, p.y);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (drawing) maybeComplete();
+        drawing = false;
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        drawing = true;
+        const p = posFromEvent(e);
+        scratch(p.x, p.y);
+        e.preventDefault();
+      }, { passive:false });
+
+      canvas.addEventListener('touchmove', e => {
+        if (!drawing || done) return;
+        const p = posFromEvent(e);
+        scratch(p.x, p.y);
+        e.preventDefault();
+      }, { passive:false });
+
+      window.addEventListener('touchend', () => {
+        if (drawing) maybeComplete();
+        drawing = false;
+      });
+
+      resize();
+      window.addEventListener('resize', resize);
+    });
+
+    const fx = document.getElementById('fx');
+    const fctx = fx.getContext('2d');
+    let particles = [];
+    let animationId = null;
+
+    function resizeFx() {
+      fx.width = innerWidth * (devicePixelRatio || 1);
+      fx.height = innerHeight * (devicePixelRatio || 1);
+      fctx.setTransform(1,0,0,1,0,0);
+      fctx.scale(devicePixelRatio  1, devicePixelRatio  1);
+    }
+    resizeFx();
+    addEventListener('resize', resizeFx);
+
+    function fireCelebration() {
+      const colors = ['#f4ddb2','#d8b36a','#ffffff','#f7d7e2','#e6c177'];
+      particles = [];
+
+      for (let i = 0; i < 220; i++) {
+        particles.push({
+          x: innerWidth / 2,
+          y: innerHeight * 0.18,
+          vx: (Math.random() - 0.5) * 9,
+          vy: Math.random() * -8 - 2,
+          g: 0.12 + Math.random() * 0.06,
+          size: Math.random() * 7 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.24,
+          life: 100 + Math.random() * 30
+        });
+      }
+
+      cancelAnimationFrame(animationId);
+      animateCelebration();
+    }
+
+    function animateCelebration() {
+      fctx.clearRect(0,0,innerWidth,innerHeight);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.g;
+        p.rot += p.vr;
+        p.life--;
+
+        fctx.save();
+        fctx.translate(p.x, p.y);
+        fctx.rotate(p.rot);
+        fctx.fillStyle = p.color;
+        fctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.66);
+        fctx.restore();
+      });
+
+      particles = particles.filter(p => p.life > 0 && p.y < innerHeight + 40);
+      if (particles.length) {
+        animationId = requestAnimationFrame(animateCelebration);
+      } else {
+        fctx.clearRect(0,0,innerWidth,innerHeight);
+      }
+    }
+  </script>
+</body>
+</html>
