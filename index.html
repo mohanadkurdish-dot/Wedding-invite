@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Invitation</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #111, #1b1b1b);
+      color: white;
+      text-align: center;
+      padding: 24px 16px 40px;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 12px 0 8px;
+    }
+
+    .sub {
+      opacity: 0.85;
+      margin-bottom: 28px;
+      font-size: 18px;
+    }
+
+    .circles {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .scratch-card {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff8e7;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .reveal {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      text-align: center;
+      color: #222;
+      font-weight: bold;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+    }
+
+    .footer {
+      margin-top: 30px;
+      opacity: 0.8;
+      font-size: 14px;
+    }
+
+    .brand {
+      margin-top: 14px;
+      font-size: 15px;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 700px) {
+      .scratch-card {
+        width: 180px;
+        height: 180px;
+      }
+
+      .reveal {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Ali & Sara</h1>
+    <div class="sub">Scratch the circles to reveal the wedding details</div>
+
+    <div class="circles">
+      <div class="scratch-card">
+        <div class="reveal">25 July 2026</div>
+        <canvas></canvas>
+      </div>
+
+      <div class="scratch-card">
+        <div class="reveal">7:00 PM</div>
+        <canvas></canvas>
+      </div>
+
+      <div class="scratch-card">
+        <div class="reveal">Duhok Wedding Hall</div>
+        <canvas></canvas>
+      </div>
+    </div>
+
+    <div class="brand">Created by Nivin Group</div>
+    <div class="footer">Send this link to your guests on WhatsApp or Instagram</div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.scratch-card');
+
+    cards.forEach((card) => {
+      const canvas = card.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = card.clientWidth * ratio;
+        canvas.height = card.clientHeight * ratio;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(ratio, ratio);
+
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = '#c9a646';
+        ctx.beginPath();
+        ctx.arc(card.clientWidth / 2, card.clientHeight / 2, card.clientWidth / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 20px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Scratch', card.clientWidth / 2, card.clientHeight / 2);
+      }
+
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      let isDrawing = false;
+
+      function scratch(x, y) {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 16, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        if (e.touches && e.touches[0]) {
+          return {
+            x: e.touches[0].clientX - rect.left,
+            y: e.touches[0].clientY - rect.top
+          };
+        }
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      }
+
+      canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;const p = getPos(e);
+        scratch(p.x, p.y);
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        scratch(p.x, p.y);
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDrawing = false;
+      });
+
+      canvas.addEventListener('touchstart', (e) => {
+        isDrawing = true;
+        const p = getPos(e);
+        scratch(p.x, p.y);
+        e.preventDefault();
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', (e) => {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        scratch(p.x, p.y);
+        e.preventDefault();
+      }, { passive: false });
+
+      window.addEventListener('touchend', () => {
+        isDrawing = false;
+      });
+    });
+  </script>
+</body>
+</html>
